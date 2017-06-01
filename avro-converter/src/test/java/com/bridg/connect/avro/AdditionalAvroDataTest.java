@@ -1,4 +1,4 @@
-package io.confluent.connect.avro;
+package com.bridg.connect.avro;
 
 import java.io.File;
 import java.io.IOException;
@@ -100,7 +100,7 @@ public class AdditionalAvroDataTest
            "{"
            + "  \"type\" : \"record\","
            + "  \"name\" : \"MyObjectToPersist\","
-           + "  \"namespace\" : \"io.confluent.connect.avro.AdditionalAvroDataTest$\","
+           + "  \"namespace\" : \"com.bridg.connect.avro.AdditionalAvroDataTest$\","
            + "  \"fields\" : [ {"
            + "    \"name\" : \"obj\","
            + "    \"type\" : [ \"null\", {"

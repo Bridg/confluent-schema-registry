@@ -14,7 +14,7 @@
  * limitations under the License.
  **/
 
-package io.confluent.connect.avro;
+package com.bridg.connect.avro;
 
 import org.apache.kafka.connect.data.Schema;
 import org.apache.kafka.connect.data.SchemaAndValue;

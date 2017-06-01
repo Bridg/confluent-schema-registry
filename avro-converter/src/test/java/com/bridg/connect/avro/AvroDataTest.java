@@ -14,7 +14,7 @@
  * limitations under the License.
  **/
 
-package io.confluent.connect.avro;
+package com.bridg.connect.avro;
 
 import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericRecord;
@@ -51,8 +51,8 @@ import java.util.TimeZone;
 
 import io.confluent.kafka.serializers.NonRecordContainer;
 
-import static io.confluent.connect.avro.AvroData.AVRO_TYPE_ENUM;
-import static io.confluent.connect.avro.AvroData.CONNECT_ENUM_DOC_PROP;
+import static com.bridg.connect.avro.AvroData.AVRO_TYPE_ENUM;
+import static com.bridg.connect.avro.AvroData.CONNECT_ENUM_DOC_PROP;
 import static org.junit.Assert.*;
 
 public class AvroDataTest {

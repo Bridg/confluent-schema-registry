@@ -14,7 +14,7 @@
  * limitations under the License.
  **/
 
-package io.confluent.connect.avro;
+package com.bridg.connect.avro;
 
 import io.confluent.kafka.serializers.AbstractKafkaAvroDeserializer;
 import io.confluent.kafka.serializers.NonRecordContainer;

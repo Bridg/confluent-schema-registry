@@ -1,4 +1,4 @@
-package io.confluent.connect.avro;
+package com.bridg.connect.avro;
 
 import java.util.HashMap;
 import java.util.Map;
