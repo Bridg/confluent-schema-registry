@@ -30,6 +30,7 @@ import org.apache.kafka.connect.data.SchemaAndValue;
 import org.apache.kafka.connect.errors.DataException;
 import org.apache.kafka.connect.storage.Converter;
 
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -43,6 +44,7 @@ public class AvroConverter implements Converter {
 
   private boolean isKey;
   private AvroData avroData;
+  private byte[] tombstone = {0x0};
 
   public AvroConverter() {
   }
@@ -79,21 +81,29 @@ public class AvroConverter implements Converter {
 
   @Override
   public SchemaAndValue toConnectData(String topic, byte[] value) {
-    try {
-      GenericContainer deserialized = deserializer.deserialize(topic, isKey, value);
-      if (deserialized == null) {
-        return SchemaAndValue.NULL;
-      } else if (deserialized instanceof IndexedRecord) {
-        return avroData.toConnectData(deserialized.getSchema(), deserialized);
-      } else if (deserialized instanceof NonRecordContainer) {
-        return avroData.toConnectData(deserialized.getSchema(), ((NonRecordContainer) deserialized)
-            .getValue());
+    // If we have a null byte, handle as a tombstone
+    if (value == null || Arrays.equals(value, tombstone)) {
+      return SchemaAndValue.NULL;
+    } else {
+      try {
+        GenericContainer deserialized = deserializer.deserialize(topic, isKey, value);
+        if (deserialized == null) {
+          return SchemaAndValue.NULL;
+        } else if (deserialized instanceof IndexedRecord) {
+          return avroData.toConnectData(deserialized.getSchema(), deserialized);
+        } else if (deserialized instanceof NonRecordContainer) {
+          return avroData.toConnectData(
+                  deserialized.getSchema(),
+                  ((NonRecordContainer) deserialized)
+              .getValue()
+          );
+        }
+        throw new DataException("Unsupported type returned during deserialization of topic %s "
+                                    .format(topic));
+      } catch (SerializationException e) {
+        throw new DataException("Failed to deserialize data for topic %s to Avro: "
+                                    .format(topic), e);
       }
-      throw new DataException("Unsupported type returned during deserialization of topic %s "
-                                  .format(topic));
-    } catch (SerializationException e) {
-      throw new DataException("Failed to deserialize data for topic %s to Avro: "
-                                  .format(topic), e);
     }
   }
 
