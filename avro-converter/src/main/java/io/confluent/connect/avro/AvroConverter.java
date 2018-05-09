@@ -92,8 +92,11 @@ public class AvroConverter implements Converter {
         } else if (deserialized instanceof IndexedRecord) {
           return avroData.toConnectData(deserialized.getSchema(), deserialized);
         } else if (deserialized instanceof NonRecordContainer) {
-          return avroData.toConnectData(deserialized.getSchema(), ((NonRecordContainer) deserialized)
-              .getValue());
+          return avroData.toConnectData(
+                  deserialized.getSchema(),
+                  ((NonRecordContainer) deserialized)
+              .getValue()
+          );
         }
         throw new DataException("Unsupported type returned during deserialization of topic %s "
                                     .format(topic));
